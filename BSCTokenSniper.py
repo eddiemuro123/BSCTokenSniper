@@ -185,8 +185,13 @@ print("") #line break
 def foundToken(event):
     try:
         jsonEventContents = json.loads(Web3.toJSON(event))
-        if(jsonEventContents['args']['token1'] == "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"): #check if pair is WBNB, if not then ignore it
-            tokenAddress = jsonEventContents['args']['token0']
+        if ((jsonEventContents['args']['token0'] == "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c") or (jsonEventContents['args']['token1'] == "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c")): 
+        #check if pair is WBNB, if not then ignore it
+        
+            if (jsonEventContents['args']['token0'] == "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"):
+               tokenAddress = jsonEventContents['args']['token1']
+            else:
+                tokenAddress = jsonEventContents['args']['token0']
        
             getTokenName = web3.eth.contract(address=tokenAddress, abi=tokenNameABI) #code to get name and symbol from token address
 
